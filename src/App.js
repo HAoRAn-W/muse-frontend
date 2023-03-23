@@ -1,25 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from "./component/Header";
+import {useEffect, useState} from "react";
+import api from './api/axios';
+import Artwork from "./component/Artwork";
+import Footer from "./component/Footer";
+import Note from "./component/Note";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [artwork, setArtwork] = useState({});
+    useEffect(() => {
+        api.get('met').then((response) => {
+            setArtwork(response.data)
+        })
+    }, [])
+    const handleClick = () => {
+        api.get('met').then((response) => {
+            setArtwork(response.data)
+        })
+    }
+    return (
+        <div className="App">
+            <Header handleClick={handleClick}/>
+            <Artwork artwork={artwork}/>
+            <Note artwork={artwork}/>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;
